@@ -1,6 +1,10 @@
-Urz¹dzenia Peryferyjne Laboratorium.
-Zadania dostêpne s¹ na stronie uczelni:http://www.zsk.iiar.pwr.edu.pl/zsk/dyd/intinz/up/lab/
-Na wykonanie zadañ jest tylko kilka godzin.
-Kod z tego repozytorium jest w wersji roboczej z laboratorium i ma du¿o niedoci¹gniêæ, ale ¿e s¹ to programy na æwiczenia nie bêd¹ poprawiane. (chyba ¿e komuœ siê zechce).
-Æwiczenia z laboratorium:
+UrzÄ…dzenia Peryferyjne Laboratorium.
+
+Zadania dostÄ™pne sÄ… na stronie uczelni:http://www.zsk.iiar.pwr.edu.pl/zsk/dyd/intinz/up/lab/
+
+Na wykonanie zadaÅ„ jest tylko kilka godzin.
+
+Kod z tego repozytorium jest w wersji roboczej z laboratorium i ma duÅ¼o niedociÄ…gniÄ™Ä‡, ale Å¼e sÄ… to programy na Ä‡wiczenia nie bÄ™dÄ… poprawiane. (chyba Å¼e komuÅ› siÄ™ zechce).
+
+Ä†wiczenia z laboratorium:
 1. BT - Bluethooth
