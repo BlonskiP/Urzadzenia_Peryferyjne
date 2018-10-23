@@ -8,16 +8,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace AudioCard
 {
     public partial class Form1 : Form
     {
         private AudiCardController AC;
         private string filepath;
+       
         public Form1()
         {
             InitializeComponent();
             AC = new AudiCardController();
+            AC.mediaPlayer = mediaPlayer;
+          
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -48,11 +53,7 @@ namespace AudioCard
 
         private void axWindowsMediaPlayer1_Enter(object sender, EventArgs e)
         {
-            if (filepath != null)
-            {
-                mediaPlayer.URL = filepath;
-                mediaPlayer.Ctlcontrols.play();
-            }
+            AC.PlayMediaPlayer(filepath);
         }
     }
 }
