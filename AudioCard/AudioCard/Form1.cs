@@ -40,5 +40,19 @@ namespace AudioCard
             Console.WriteLine(filepath);
 
         }
+
+        private void StopSound_btn_Click(object sender, EventArgs e)
+        {
+            AC.StopSound();
+        }
+
+        private void axWindowsMediaPlayer1_Enter(object sender, EventArgs e)
+        {
+            if (filepath != null)
+            {
+                mediaPlayer.URL = filepath;
+                mediaPlayer.Ctlcontrols.play();
+            }
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace AudioCard
 {
     class AudiCardController
     {
+       
+        private SoundPlayer player;
         public AudiCardController()
         {
             
@@ -20,13 +22,19 @@ namespace AudioCard
         {
             if (fileName != null)
             {
-                SoundPlayer player = new SoundPlayer(fileName);
+                player = new SoundPlayer(fileName);
                 player.Play();
             }
             else
             {
                 MessageBox.Show("Choose .wav file first");
             }
+
         }
+        public void StopSound()
+        {
+            player?.Stop(); // same as if(player!=null);
+        }
+        
     }
 }
