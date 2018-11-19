@@ -68,7 +68,7 @@ namespace Skaner225959
 
         private void dialogBtn_Click(object sender, EventArgs e)
         {
-            sc.scanTest();
+            sc.scanDialog();
         }
 
         private void openFolderDialog()

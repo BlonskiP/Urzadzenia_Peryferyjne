@@ -104,7 +104,7 @@ namespace Skaner225959
         {
           AdjustScannerSettings(scannerItem, resolution, dpi, leftPixel, width, height, bright, contrast, color);
         }
-         public void scanTest()
+         public void scanDialog()
         {
             WIA.CommonDialog dialog = new WIA.CommonDialog();
             ImageFile scanResults = dialog.ShowAcquireImage(WiaDeviceType.ScannerDeviceType, WiaImageIntent.ColorIntent, WiaImageBias.MaximizeQuality, WIA.FormatID.wiaFormatJPEG, false, false, false);
@@ -113,7 +113,7 @@ namespace Skaner225959
             {
                 File.Delete(filePath);
             }
-
+             if(scanResults!=null) //check if scan was done
             scanResults.SaveFile(filePath);
         }
         
