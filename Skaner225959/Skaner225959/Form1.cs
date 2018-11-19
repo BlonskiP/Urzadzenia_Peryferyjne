@@ -33,7 +33,11 @@ namespace Skaner225959
 
         private void scannersList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if(scannersList.Items.Count<0)
+            {
+                sc.chosenDevice = sc.scanners[scannersList.SelectedIndex];
+                sc.ConnectScannerItem();
+            }
         }
 
         private void scanBtn_Click(object sender, EventArgs e)
@@ -87,8 +91,26 @@ namespace Skaner225959
             pictureBox1.ImageLocation = sc.filePath;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-        
 
-       
+        private void colorCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(sc.chosenDevice!=null)
+            switch (colorCB.SelectedIndex)
+            {
+                case 0: {
+                        sc.setColor(1); //Set color full
+                        break; }
+                case 1: {
+                        sc.setColor(2); //Set Grayscale
+                        break; }
+                case 2: {
+                        sc.setColor(4);// Set Black-white
+                            break; }
+
+                default:
+                    break;
+            }
+            sc.updateColor();
+        }
     }
 }

@@ -10,16 +10,28 @@ namespace Skaner225959
 {
     class ScannerController
     {
+        int color = 1;
+        int resolution,
+            dpi,
+            leftPixel,
+            width,
+            height, bright, contrast;
         public DeviceInfo chosenDevice;
+        private Device device;
         public List<DeviceInfo> scanners;
         private WIA.Item scannerItem;
         private ImageFile imageFile;
         public string filePath;
+        public void setColor(int colorNumber)
+        {
+            color = colorNumber;
+        }
         public ScannerController()
         {
             scanners = new List<DeviceInfo>();
+            
         }
-
+        
         public void getScanners()
         {
             scanners = new List<DeviceInfo>();
@@ -35,6 +47,7 @@ namespace Skaner225959
             if(scanners.Count>0)
             {
                 chosenDevice = scanners[0];
+                ConnectScannerItem();
             }
            
         }
@@ -48,27 +61,26 @@ namespace Skaner225959
             {
                 return;
             }
-            if (chosenDevice != null || filePath=="")
+            if (chosenDevice != null || filePath == "")
             {
                 filePath = filePath + "\\scan1.jpeg";
-                var device = chosenDevice.Connect();
-                scannerItem = device.Items[1];
-                imageFile = (ImageFile)scannerItem.Transfer(format);
-                Console.WriteLine(filePath);
-                if (File.Exists(filePath))
-                {
-                    File.Delete(filePath);
-                }
                
-                imageFile.SaveFile(filePath);
+               
+                imageFile = (ImageFile)scannerItem.Transfer(format);
+                saveFile(filePath, imageFile);
             }
-
             
         }
-
-        private static void AdjustScannerSettings(IItem scannnerItem, int scanResolutionDPI, int scanStartLeftPixel, int scanStartTopPixel, int scanWidthPixels, int scanHeightPixels, int brightnessPercents, int contrastPercents, int colorMode)
+        public void ConnectScannerItem()
         {
-            const string WIA_SCAN_COLOR_MODE = "6146";
+            if (chosenDevice != null) {
+            device = chosenDevice.Connect();
+            scannerItem = device.Items[1];
+            }
+        }
+        private void AdjustScannerSettings(IItem scannnerItem, int scanResolutionDPI, int scanStartLeftPixel, int scanStartTopPixel, int scanWidthPixels, int scanHeightPixels, int brightnessPercents, int contrastPercents, int colorMode)
+        {
+            
             const string WIA_HORIZONTAL_SCAN_RESOLUTION_DPI = "6147";
             const string WIA_VERTICAL_SCAN_RESOLUTION_DPI = "6148";
             const string WIA_HORIZONTAL_SCAN_START_PIXEL = "6149";
@@ -77,6 +89,9 @@ namespace Skaner225959
             const string WIA_VERTICAL_SCAN_SIZE_PIXELS = "6152";
             const string WIA_SCAN_BRIGHTNESS_PERCENTS = "6154";
             const string WIA_SCAN_CONTRAST_PERCENTS = "6155";
+
+            
+
             SetWIAProperty(scannnerItem.Properties, WIA_HORIZONTAL_SCAN_RESOLUTION_DPI, scanResolutionDPI);
             SetWIAProperty(scannnerItem.Properties, WIA_VERTICAL_SCAN_RESOLUTION_DPI, scanResolutionDPI);
             SetWIAProperty(scannnerItem.Properties, WIA_HORIZONTAL_SCAN_START_PIXEL, scanStartLeftPixel);
@@ -85,7 +100,7 @@ namespace Skaner225959
             SetWIAProperty(scannnerItem.Properties, WIA_VERTICAL_SCAN_SIZE_PIXELS, scanHeightPixels);
             SetWIAProperty(scannnerItem.Properties, WIA_SCAN_BRIGHTNESS_PERCENTS, brightnessPercents);
             SetWIAProperty(scannnerItem.Properties, WIA_SCAN_CONTRAST_PERCENTS, contrastPercents);
-            SetWIAProperty(scannnerItem.Properties, WIA_SCAN_COLOR_MODE, colorMode);
+            
         }
 
         /// <summary>
@@ -94,29 +109,36 @@ namespace Skaner225959
         /// <param name="properties"></param>
         /// <param name="propName"></param>
         /// <param name="propValue"></param>
-        private static void SetWIAProperty(IProperties properties, object propName, object propValue)
+        private void SetWIAProperty(IProperties properties, object propName, object propValue)
         {
             Property prop = properties.get_Item(ref propName);
+            Console.WriteLine(prop.get_Value());
             prop.set_Value(ref propValue);
         }
-
-        public void updateScannerSettings(int resolution,int dpi,int leftPixel,int width,int height,int bright,int contrast, int color)
+        public void updateColor()
         {
-          AdjustScannerSettings(scannerItem, resolution, dpi, leftPixel, width, height, bright, contrast, color);
+            const string WIA_SCAN_COLOR_MODE = "6146";
+            SetWIAProperty(scannerItem.Properties, WIA_SCAN_COLOR_MODE, color);
         }
+       
          public void scanDialog()
         {
             WIA.CommonDialog dialog = new WIA.CommonDialog();
             ImageFile scanResults = dialog.ShowAcquireImage(WiaDeviceType.ScannerDeviceType, WiaImageIntent.ColorIntent, WiaImageBias.MaximizeQuality, WIA.FormatID.wiaFormatJPEG, false, false, false);
             filePath = filePath + "\\scan1.jpeg";
-             if (File.Exists(filePath))
+            saveFile(filePath, scanResults);
+        }
+        
+        private void saveFile(string filePath, ImageFile scan)
+        {
+            if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
-             if(scanResults!=null) //check if scan was done
-            scanResults.SaveFile(filePath);
+            if (scan != null) //check if scan was done
+                scan.SaveFile(filePath);
+            filePath = null;
         }
-        
 
     }
 }
