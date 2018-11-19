@@ -55,5 +55,43 @@ namespace AudioCard
         {
             AC.PlayMediaPlayer(filepath);
         }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            AC.MicroPhoneOn();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AC.SaveMicro();
+            filepath = "test.wav";
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            AC.msiPlay(filepath);
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            AC.mciPause(filepath);
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {AC.mciResume(filepath);
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            AC.mciStop(filepath);
+        }
+
+       
     }
 }
