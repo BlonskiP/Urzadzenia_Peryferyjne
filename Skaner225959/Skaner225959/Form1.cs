@@ -52,6 +52,7 @@ namespace Skaner225959
             {
                 if(scannersList.SelectedIndex!=-1)
                 sc.chosenDevice = sc.scanners[scannersList.SelectedIndex];
+                updateSettings();
                 sc.scan(FormatID.wiaFormatJPEG);
                 showImg();
             }
@@ -72,6 +73,7 @@ namespace Skaner225959
 
         private void dialogBtn_Click(object sender, EventArgs e)
         {
+
             sc.scanDialog();
         }
 
@@ -111,6 +113,38 @@ namespace Skaner225959
                     break;
             }
             sc.updateColor();
+        }
+
+        
+        private void verticalResolutionText_KeyPressed(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                
+                e.Handled = true;
+            }
+           
+
+          
+        }
+        private void updateSettings()
+        {
+            if(verticalResolutionText.Text.Length>0)
+            sc.setResolutionVertical(Int32.Parse(verticalResolutionText.Text));
+            if(HorizontalResoultionText.Text.Length>0)
+            sc.setResolutionHorizontal(Int32.Parse(HorizontalResoultionText.Text));
+        }
+
+        private void horizontalResolutionText_KeyPressed(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+
+                e.Handled = true;
+            }
+
+
+
         }
     }
 }

@@ -68,6 +68,7 @@ namespace Skaner225959
                
                 imageFile = (ImageFile)scannerItem.Transfer(format);
                 saveFile(filePath, imageFile);
+                filePath = null;
             }
             
         }
@@ -82,7 +83,7 @@ namespace Skaner225959
         {
             
             const string WIA_HORIZONTAL_SCAN_RESOLUTION_DPI = "6147";
-            const string WIA_VERTICAL_SCAN_RESOLUTION_DPI = "6148";
+           
             const string WIA_HORIZONTAL_SCAN_START_PIXEL = "6149";
             const string WIA_VERTICAL_SCAN_START_PIXEL = "6150";
             const string WIA_HORIZONTAL_SCAN_SIZE_PIXELS = "6151";
@@ -93,7 +94,7 @@ namespace Skaner225959
             
 
             SetWIAProperty(scannnerItem.Properties, WIA_HORIZONTAL_SCAN_RESOLUTION_DPI, scanResolutionDPI);
-            SetWIAProperty(scannnerItem.Properties, WIA_VERTICAL_SCAN_RESOLUTION_DPI, scanResolutionDPI);
+            
             SetWIAProperty(scannnerItem.Properties, WIA_HORIZONTAL_SCAN_START_PIXEL, scanStartLeftPixel);
             SetWIAProperty(scannnerItem.Properties, WIA_VERTICAL_SCAN_START_PIXEL, scanStartTopPixel);
             SetWIAProperty(scannnerItem.Properties, WIA_HORIZONTAL_SCAN_SIZE_PIXELS, scanWidthPixels);
@@ -101,6 +102,17 @@ namespace Skaner225959
             SetWIAProperty(scannnerItem.Properties, WIA_SCAN_BRIGHTNESS_PERCENTS, brightnessPercents);
             SetWIAProperty(scannnerItem.Properties, WIA_SCAN_CONTRAST_PERCENTS, contrastPercents);
             
+        }
+
+        internal void setResolutionVertical(int v)
+        {
+            const string WIA_VERTICAL_SCAN_RESOLUTION_DPI = "6148";
+            SetWIAProperty(scannerItem.Properties, WIA_VERTICAL_SCAN_RESOLUTION_DPI, v);
+        }
+        internal void setResolutionHorizontal(int h)
+        {
+            const string WIA_HORIZONTAL_SCAN_RESOLUTION_DPI = "6147";
+            SetWIAProperty(scannerItem.Properties, WIA_HORIZONTAL_SCAN_RESOLUTION_DPI, h);
         }
 
         /// <summary>
@@ -111,14 +123,19 @@ namespace Skaner225959
         /// <param name="propValue"></param>
         private void SetWIAProperty(IProperties properties, object propName, object propValue)
         {
+            try { 
             Property prop = properties.get_Item(ref propName);
             Console.WriteLine(prop.get_Value());
             prop.set_Value(ref propValue);
+            }
+            catch (Exception e) { Console.WriteLine("BŁĘDNE WARTOŚCI USTAWIEŃ!"); }
+            
         }
         public void updateColor()
         {
             const string WIA_SCAN_COLOR_MODE = "6146";
             SetWIAProperty(scannerItem.Properties, WIA_SCAN_COLOR_MODE, color);
+
         }
        
          public void scanDialog()
@@ -127,6 +144,7 @@ namespace Skaner225959
             ImageFile scanResults = dialog.ShowAcquireImage(WiaDeviceType.ScannerDeviceType, WiaImageIntent.ColorIntent, WiaImageBias.MaximizeQuality, WIA.FormatID.wiaFormatJPEG, false, false, false);
             filePath = filePath + "\\scan1.jpeg";
             saveFile(filePath, scanResults);
+            filePath = null;
         }
         
         private void saveFile(string filePath, ImageFile scan)
@@ -137,7 +155,7 @@ namespace Skaner225959
             }
             if (scan != null) //check if scan was done
                 scan.SaveFile(filePath);
-            filePath = null;
+            
         }
 
     }
