@@ -1,0 +1,13 @@
+-nawiazywanie polaczen :
+ATD39-65 (podanie numeru)
+RING (komunikat dzwonienia)
+ATA-odbieranie
+ATH-rozlacZanie
+BUSY (komunikat w przypadku gdy modem jest zajety)
+NO CARRIER (komunikat w przypadku gdzy modem nie jest polaczony)
+lampka TR - modem polaczony portem szeregowym
+lampka OH - wykonywanie polaczenia
+lampka AA - ktos probuje nawiazac polaczenie
+lampka CD - modemy sa polaczone
+dla roznych predkosci polaczyl sie bez problemu (modem 1 -1200- wolniejsze wyswietlanie, modem 2- 9600-normalne wyswietlanie)
+DTR - true
